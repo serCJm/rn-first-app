@@ -12,7 +12,7 @@ import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export type CourseGoal = {
-	key: string;
+	id: string;
 	value: string;
 };
 
@@ -23,8 +23,13 @@ export default function App() {
 		console.log(enteredGoal);
 		setCourseGoals((prevState: CourseGoal[]) => [
 			...prevState,
-			{ key: Math.random().toString(), value: enteredGoal },
+			{ id: Math.random().toString(), value: enteredGoal },
 		]);
+	}
+
+	function handleDelete(itemId: string) {
+		const newCourseGoals = courseGoals.filter((goal) => goal.id !== itemId);
+		setCourseGoals(newCourseGoals);
 	}
 
 	return (
@@ -33,7 +38,11 @@ export default function App() {
 			<FlatList
 				data={courseGoals}
 				renderItem={(itemData) => (
-					<GoalItem text={itemData.item.value}></GoalItem>
+					<GoalItem
+						onDelete={handleDelete}
+						text={itemData.item.value}
+						itemId={itemData.item.id}
+					></GoalItem>
 				)}
 			/>
 		</View>
