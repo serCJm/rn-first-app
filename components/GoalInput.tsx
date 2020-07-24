@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, TextInput, View, Button } from "react-native";
-// Types
-import { NativeSyntheticEvent, NativeTouchEvent } from "react-native";
+import { StyleSheet, TextInput, View, Button, Modal } from "react-native";
 
 type Props = {
 	addGoalHandler: (enteredGoal: string) => void;
+	isModalVisible: boolean;
 };
 
-export default function GoalInput({ addGoalHandler }: Props) {
+export default function GoalInput({ addGoalHandler, isModalVisible }: Props) {
 	const [enteredGoal, setEnteredGoal] = useState("");
 
 	function onChangeHandler(enteredText: string) {
@@ -15,15 +14,20 @@ export default function GoalInput({ addGoalHandler }: Props) {
 	}
 
 	return (
-		<View style={styles.inputContainer}>
-			<TextInput
-				placeholder="Enter Goal"
-				style={styles.input}
-				onChangeText={onChangeHandler}
-				value={enteredGoal}
-			/>
-			<Button title="Hello" onPress={() => addGoalHandler(enteredGoal)} />
-		</View>
+		<Modal visible={isModalVisible} animationType="slide">
+			<View style={styles.inputContainer}>
+				<TextInput
+					placeholder="Enter Goal"
+					style={styles.input}
+					onChangeText={onChangeHandler}
+					value={enteredGoal}
+				/>
+				<Button
+					title="Hello"
+					onPress={() => addGoalHandler(enteredGoal)}
+				/>
+			</View>
+		</Modal>
 	);
 }
 
