@@ -2,11 +2,19 @@ import React, { useState } from "react";
 import { StyleSheet, TextInput, View, Button, Modal } from "react-native";
 
 type Props = {
-	addGoalHandler: (enteredGoal: string) => void;
+	addGoalHandler: (
+		enteredGoal: string,
+		setEnteredGoal: (goal: string) => void
+	) => void;
 	isModalVisible: boolean;
+	onCancel: () => void;
 };
 
-export default function GoalInput({ addGoalHandler, isModalVisible }: Props) {
+export default function GoalInput({
+	addGoalHandler,
+	isModalVisible,
+	onCancel,
+}: Props) {
 	const [enteredGoal, setEnteredGoal] = useState("");
 
 	function onChangeHandler(enteredText: string) {
@@ -22,10 +30,23 @@ export default function GoalInput({ addGoalHandler, isModalVisible }: Props) {
 					onChangeText={onChangeHandler}
 					value={enteredGoal}
 				/>
-				<Button
-					title="Hello"
-					onPress={() => addGoalHandler(enteredGoal)}
-				/>
+				<View style={styles.buttonContainer}>
+					<View style={styles.button}>
+						<Button
+							title="Cancel"
+							onPress={() => onCancel()}
+							color="red"
+						/>
+					</View>
+					<View style={styles.button}>
+						<Button
+							title="Add Goal"
+							onPress={() =>
+								addGoalHandler(enteredGoal, setEnteredGoal)
+							}
+						/>
+					</View>
+				</View>
 			</View>
 		</Modal>
 	);
@@ -33,13 +54,22 @@ export default function GoalInput({ addGoalHandler, isModalVisible }: Props) {
 
 const styles = StyleSheet.create({
 	inputContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
+		flex: 1,
+		justifyContent: "center",
 		alignItems: "center",
 	},
 	input: {
 		width: "80%",
 		borderBottomColor: "black",
 		borderBottomWidth: 1,
+		marginBottom: 10,
+	},
+	buttonContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		width: "60%",
+	},
+	button: {
+		width: "40%",
 	},
 });
