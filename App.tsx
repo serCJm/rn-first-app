@@ -9,6 +9,7 @@ import {
 	FlatList,
 } from "react-native";
 import GoalItem from "./components/GoalItem";
+import GoalInput from "./components/GoalInput";
 
 export type CourseGoal = {
 	key: string;
@@ -16,14 +17,9 @@ export type CourseGoal = {
 };
 
 export default function App() {
-	const [enteredGoal, setEnteredGoal] = useState("");
 	const [courseGoals, setCourseGoals] = useState<CourseGoal[]>([]);
 
-	function onChangeHandler(enteredText: string) {
-		setEnteredGoal(enteredText);
-	}
-
-	function addGoalHandler() {
+	function addGoalHandler(enteredGoal: string) {
 		console.log(enteredGoal);
 		setCourseGoals((prevState: CourseGoal[]) => [
 			...prevState,
@@ -33,15 +29,7 @@ export default function App() {
 
 	return (
 		<View style={styles.screen}>
-			<View style={styles.inputContainer}>
-				<TextInput
-					placeholder="Enter Goal"
-					style={styles.input}
-					onChangeText={onChangeHandler}
-					value={enteredGoal}
-				/>
-				<Button title="Hello" onPress={addGoalHandler} />
-			</View>
+			<GoalInput addGoalHandler={addGoalHandler} />
 			<FlatList
 				data={courseGoals}
 				renderItem={(itemData) => (
@@ -55,16 +43,6 @@ export default function App() {
 const styles = StyleSheet.create({
 	screen: {
 		padding: 50,
-	},
-	inputContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-	},
-	input: {
-		width: "80%",
-		borderBottomColor: "black",
-		borderBottomWidth: 1,
 	},
 	listItem: {
 		padding: 10,
