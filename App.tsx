@@ -13,12 +13,17 @@ export default function App() {
 	const [courseGoals, setCourseGoals] = useState<CourseGoal[]>([]);
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-	function addGoalHandler(enteredGoal: string) {
+	function addGoalHandler(
+		enteredGoal: string,
+		setEneteredGoal: (value: string) => void
+	) {
 		console.log(enteredGoal);
 		setCourseGoals((prevState: CourseGoal[]) => [
 			...prevState,
 			{ id: Math.random().toString(), value: enteredGoal },
 		]);
+		setIsModalVisible(false);
+		setEneteredGoal("");
 	}
 
 	function handleDelete(itemId: string) {
@@ -30,11 +35,12 @@ export default function App() {
 		<View style={styles.screen}>
 			<Button
 				title="Add New Goal"
-				onPress={() => setIsModalVisible((prevState) => !prevState)}
+				onPress={() => setIsModalVisible(true)}
 			></Button>
 			<GoalInput
 				isModalVisible={isModalVisible}
 				addGoalHandler={addGoalHandler}
+				onCancel={() => setIsModalVisible(false)}
 			/>
 			<FlatList
 				data={courseGoals}
